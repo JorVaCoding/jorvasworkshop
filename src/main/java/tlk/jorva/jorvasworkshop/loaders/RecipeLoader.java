@@ -32,8 +32,6 @@ public class RecipeLoader {
 		Logger.info("Loading recipes started");
 		GameRegistry.addRecipe(new ShapedOreRecipe(BlockLoader.workshopTable, "PPP", "CUC", "CCC", 'P', PLANKS, 'C',
 				COBBLE, 'U', Upgrade.BLANK.getItemStack()));
-		GameRegistry.addRecipe(
-				new ShapedOreRecipe(BlockLoader.barrel, "LIL", "LCL", "LLL", 'I', IRON, 'L', WOOD, 'C', Blocks.CHEST));
 		addRecipe(Upgrade.BLANK, "SP", "PS", 'S', STONE, 'P', PLANKS);
 		addRecipe(Upgrade.STORAGE, "C", "U", 'C', Blocks.CHEST, 'U', Upgrade.BLANK.getItemStack());
 		addRecipe(Upgrade.AUTO_CRAFTER, "PPP", "CTC", "CUC", 'P', PLANKS, 'C', COBBLE, 'T', Blocks.PISTON, 'U',

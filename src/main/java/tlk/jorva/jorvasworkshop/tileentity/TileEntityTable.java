@@ -3,11 +3,11 @@ package tlk.jorva.jorvasworkshop.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Optional;
-
+import net.darkhax.tesla.api.ITeslaConsumer;
+import net.darkhax.tesla.api.ITeslaHolder;
+import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -19,12 +19,13 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
 import tlk.jorva.jorvasworkshop.block.BlockWorkshopTable;
 import tlk.jorva.jorvasworkshop.gui.container.slot.SlotBase;
 import tlk.jorva.jorvasworkshop.gui.container.slot.SlotFuel;
@@ -49,8 +50,12 @@ import tlk.jorva.jorvasworkshop.page.setting.Transfer;
 import tlk.jorva.jorvasworkshop.page.unit.Unit;
 import tlk.jorva.jorvasworkshop.page.unit.UnitCrafting;
 import tlk.jorva.jorvasworkshop.util.StringMap;
-
-public class TileEntityTable extends TileEntity implements IInventory, ISidedInventory, IFluidHandler, ITickable {
+//@Optional.Interface(modid="tesla", iface="net.darkhax.tesla.api.ITelsaHolder")
+@Optional.InterfaceList({
+	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla"),
+	@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "tesla"),
+})
+public class TileEntityTable extends TileEntity implements IInventory, ISidedInventory, IFluidHandler, ITickable, /*TESLA*/ ITeslaHolder, ITeslaConsumer {
 
     private List<Page> pages;
     private Page selectedPage;
@@ -267,6 +272,13 @@ public class TileEntityTable extends TileEntity implements IInventory, ISidedInv
             case CLEAR:
                 clearGrid(player, dr.readData(GRID_ID_BITS));
                 break;
+		case ALL:
+			break;
+		case UPGRADE_CHANGE:
+			onUpgradeChange();
+			break;
+		default:
+			break;
         }
     }
 
@@ -825,49 +837,72 @@ public class TileEntityTable extends TileEntity implements IInventory, ISidedInv
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		// TODO Auto-generated method stub
-		return null;
+		return sideSlots[getTransferSide(side)];
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return slots.get(index).getStack().copy();
 	}
 
 	@Override
 	public void openInventory(EntityPlayer player) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public int getField(int id) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setField(int id, int value) {}
 
 	@Override
 	public int getFieldCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	@Override
+	public long getStoredPower() {
+		return power;
+	}
+
+	@Override
+	public long getCapacity() {
+		return MAX_POWER;
+	}
+
+	@Override
+	public long givePower(long power, boolean simulated) {
+		long rValue = Math.min(getCapacity()-getStoredPower(), power);
+		setPower((int)rValue + getPower());
+		return rValue;
+	}
+	
+    @Optional.Method(modid="tesla")
+    public boolean hasCapability (Capability<?> capability, EnumFacing facing) {
+        return (capability == TeslaCapabilities.CAPABILITY_HOLDER || capability == TeslaCapabilities.CAPABILITY_CONSUMER) ? true : super.hasCapability(capability, facing);
+    }
+
+    @Optional.Method(modid="tesla")
+    public <T> T getCapability (Capability<T> capability, EnumFacing facing) {
+        
+    	 if (capability == TeslaCapabilities.CAPABILITY_HOLDER)
+             return (T) this;
+    	 if (capability == TeslaCapabilities.CAPABILITY_CONSUMER)
+             return (T) this;
+        return super.getCapability(capability, facing);
+    }
 }

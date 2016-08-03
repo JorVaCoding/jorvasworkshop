@@ -52,11 +52,6 @@ public class ItemUpgrade extends Item {
         for (int i = 0; i < Upgrade.values().length; ++i) {
 			Upgrade[] upgrades = Upgrade.values().clone();
 			lst.add(upgrades[i].getItemStack());
-			if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
-//				System.out.println("[debug] REGISTERING RENDER " + upgrades[i].getJson());
-				ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(upgrades[i].getJson()));
-				
-			}
 		}
     }
 

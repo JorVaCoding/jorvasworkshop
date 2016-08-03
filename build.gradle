@@ -177,7 +177,7 @@ def createJSONsForTextures(File directory, String directoryPath) {
                 directoryPath = directoryPath.replace("\\", "/")
                 jsonFile.createNewFile();
                 String jsonString = '''{
-    "parent":"builtin/generated",
+    "parent":"item/generated",
     "textures":{
         "layer0":"''' + archivesBaseName + ":items/" + directoryPath + newFileName + '''"
     },
