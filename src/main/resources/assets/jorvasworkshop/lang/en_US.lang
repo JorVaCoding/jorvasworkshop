@@ -1,0 +1,22 @@
+#Blocks
+tile.WorkshopTable.name=Workshop Table
+tile.Barrel.name=Barrel
+
+#Items
+jorvasworkshop:item.blank.name=Blank Upgrade
+jorvasworkshop:item.auto_crafter.name=Auto Crafter Upgrade
+jorvasworkshop:item.storage.name=Storage Upgrade
+jorvasworkshop:item.charged.name=Charger Upgrade
+jorvasworkshop:item.speed.name=Speed Upgrade
+jorvasworkshop:item.queue.name=Queueing Upgrade
+jorvasworkshop:item.efficiency.name=Efficiency Upgrade
+jorvasworkshop:item.lava.name=Lava Power Upgrade
+jorvasworkshop:item.eu.name=EU Acceptor Upgrade
+jorvasworkshop:item.tesla.name=Tesla Acceptor Upgrade
+jorvasworkshop:item.solar.name=Solar Power Upgrade
+jorvasworkshop:item.auto_transfer.name=Auto Transfer Upgrade
+jorvasworkshop:item.filter.name=Filter Upgrade
+jorvasworkshop:item.transfer.name=Transfer Capacity Upgrade
+
+#Creative Tabs
+itemGroup.JorVa's Workshop=JorVa's Workshop

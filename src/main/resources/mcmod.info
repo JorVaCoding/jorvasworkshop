@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "ewysworkshop",
+    "name": "Ewy's Workshop",
+    "description": "A fork of Steve's Workshop",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["EwyBoy, Vswe"],
+    "credits": "To the original author Vswe for making Steve's  awesome mod and",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
